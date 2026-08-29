@@ -148,9 +148,24 @@ class WishlistAnalystAgent:
         if not reviews:
             return "No matching review data found. Try a different query or check that ingestion has run."
 
-        # Read both lazily so .env changes are always picked up at call time
+        # Read both lazily so .env changes or Streamlit secrets are picked up at call time
         groq_api_key = os.getenv("GROQ_API_KEY", "").strip()
-        groq_model   = os.getenv("GROQ_MODEL",   "groq/compound").strip()
+        if not groq_api_key:
+            try:
+                import streamlit as st
+                groq_api_key = st.secrets.get("GROQ_API_KEY", "").strip()
+            except Exception:
+                pass
+
+        groq_model = os.getenv("GROQ_MODEL", "").strip()
+        if not groq_model:
+            try:
+                import streamlit as st
+                groq_model = st.secrets.get("GROQ_MODEL", "").strip()
+            except Exception:
+                pass
+        if not groq_model:
+            groq_model = "groq/compound"
 
         if not groq_api_key:
             logger.warning("GROQ_API_KEY not set — using plain fallback response.")
