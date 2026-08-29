@@ -1,16 +1,7 @@
-# ── Core app ──────────────────────────────────────────────────────────────────
 streamlit>=1.35.0
 sentence-transformers>=3.0.0
 chromadb>=0.5.0
 numpy>=1.24.0
-requests>=2.20.0           # Groq API called via plain HTTP (no separate groq SDK needed)
+requests>=2.20.0
 python-dotenv>=1.0.0
-torch>=2.0.0               # required by sentence-transformers for CPU inference
-
-# ── Data pipeline ─────────────────────────────────────────────────────────────
-# Note: project uses stdlib csv/json — pandas is NOT a direct dependency
-
-# ── Scrapers ──────────────────────────────────────────────────────────────────
-google-play-scraper>=1.2.4        # Play Store reviews
-app-store-scraper>=0.3.5          # Apple App Store reviews
-google-api-python-client>=2.100.0 # YouTube Data API v3  (googleapiclient.discovery)
+torch>=2.0.0
