@@ -11,6 +11,21 @@ from dotenv import load_dotenv
 logging.basicConfig(level=logging.WARNING)
 load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"))
 
+# Synchronize Streamlit Secrets to environment variables for Cloud deployments
+try:
+    import streamlit as _st
+    if hasattr(_st, "secrets"):
+        for k in ("GROQ_API_KEY", "groq_api_key"):
+            if k in _st.secrets and _st.secrets[k]:
+                os.environ["GROQ_API_KEY"] = str(_st.secrets[k]).strip()
+                break
+        for k in ("GROQ_MODEL", "groq_model"):
+            if k in _st.secrets and _st.secrets[k]:
+                os.environ["GROQ_MODEL"] = str(_st.secrets[k]).strip()
+                break
+except Exception:
+    pass
+
 st.set_page_config(
     page_title="Myntra Wishlist Analyzer",
     page_icon="🛍️",

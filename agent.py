@@ -153,7 +153,10 @@ class WishlistAnalystAgent:
         if not groq_api_key:
             try:
                 import streamlit as st
-                groq_api_key = st.secrets.get("GROQ_API_KEY", "").strip()
+                if hasattr(st, "secrets"):
+                    groq_api_key = str(
+                        st.secrets.get("GROQ_API_KEY") or st.secrets.get("groq_api_key") or ""
+                    ).strip()
             except Exception:
                 pass
 
@@ -161,7 +164,10 @@ class WishlistAnalystAgent:
         if not groq_model:
             try:
                 import streamlit as st
-                groq_model = st.secrets.get("GROQ_MODEL", "").strip()
+                if hasattr(st, "secrets"):
+                    groq_model = str(
+                        st.secrets.get("GROQ_MODEL") or st.secrets.get("groq_model") or ""
+                    ).strip()
             except Exception:
                 pass
         if not groq_model:
